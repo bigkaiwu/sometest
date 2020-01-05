@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>一些事件修饰符</title>
+		<style type="text/css">
+			.box{width: 100px;height: 100px;background-color: aquamarine;}
+		</style>
+	</head>
+	<body>
+	<div id="app">
+		<!-- .stop 阻止冒泡 从内到外   即不加stop时点击按钮也会打印点击了盒子-->
+		<!--.self 只当事件在该元素本身（比如不是子元素）触发时触发回调-->
+		<!--.capture添加事件侦听器时使用事件捕获模式-->
+		<!-- .stop是真正意义上的组织冒泡，.self只会阻止自己身上冒泡行为的触发，并不会真正阻止冒泡的行为 -->
+		<div class="box" @click="boxClick()">
+			<button type="button" @click.stop="btnClick()">点击</button>
+		</div>
+		<!-- .prevent 阻止默认事件 例如，在页面中跳转淘宝去买东西，在方法中判定业务逻辑有没有钱。没钱就阻止不跳转 -->
+		<a href="www.taobao.com" @click.prevent="buy()">tao! i like</a>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			methods:{
+				btnClick(){
+					console.log("点击了按钮");
+				},
+				boxClick(){
+					console.log("点击了盒子");
+				},
+				buy(){
+					console.log("sorry,you have no money!");
+				}
+			}
+		})
+	</script>
+	</body>
+</html>
