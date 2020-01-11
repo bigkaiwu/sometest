@@ -9,31 +9,34 @@
 <body>
     <!-- 父传子用的是属性向下传，子传父用的是事件向上传 -->
     <div id="app">
-        <navbar title="home" :show="false"></navbar>
-        <navbar title="list" :show="true"></navbar>
-        <navbar title="cart" :show="true"></navbar>
-        <navbar :title="parentname" show="true"></navbar>
+        <navbar @get="getson"></navbar>
+        <navbar @get="getson($event)"></navbar>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
     <script>
         Vue.component("navbar",{
             template:`
             <div>
-                <button>返回</button>
-                navbar-{{ title }}
-                <button v-show="show">首页</button>
+                child组件
+                <button @click="tofather">to father</button>
             </div>`,
-            props:["title","show"] //接受父组件传来的属性
-            //属性验证 props:{
-            //     title:String,
-            //     show:Boolean
-            // }
+            data(){
+                return{
+                    childname:"子组件的状态"
+                }
+            },
+            methods:{
+                tofather(){
+                    this.$emit("get",this.childname) //分发
+                }
+            }
         })
         new Vue({
             el:"#app",
-            data:{
-                parentname:"父组件的状态"
+            methods:{
+                getson(ev){
+                    window.console.log("get son",ev)
+                }
             }
         })
     </script>
