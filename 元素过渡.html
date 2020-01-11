@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .fade-enter-active,.fade-leave-active{
+            transition:all 1.5s;
+        }
+        .fade-enter, .fade-leave-to{
+            opacity: 0;
+            transform: translateY(100px);
+        }
+    </style>
+</head>
+<body>
+    <!-- transition-group不同于transition，会以一个真实的元素呈现，默认是一个span，也可以通过设置tag改变 -->
+    <!-- 提供唯一的key属性值 最好设置为item，或者item.id，否则遍历数组删除时总是最后一个有动画（如(item,index)in list :key="index"）。item in list :key="item" -->
+    <div id="app">
+        <button @click="isShow = !isShow">show</button @click="isShow = !isShow">
+            <transition name="fade" mode="out-in">
+            <!-- 根据diff算法，这里产生动画需要设置不同key，或者设置不同标签，否则vue将直接替换元素内容，不会产生动画 -->
+                <p v-if="isShow" key="1">transition1111</p>
+                <p v-else key="2">transition2222</p>
+                <!-- <div v-else>transition2222</p> -->
+            </transition>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                isShow:false
+            }
+        })
+    </script>
+</body>
+</html>
