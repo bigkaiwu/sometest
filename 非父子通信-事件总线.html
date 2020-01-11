@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <author></author>
+        <user></user>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var bus = new Vue(); //事件总线就是一个空的vue实例
+
+        Vue.component("author",{
+            template:`
+            <div>
+                <input type="text" ref="mytext" />
+                <button @click="send">add</button>
+            </div>`,
+            methods:{
+                send(){
+                    bus.$emit("message",this.$refs.mytext.value)
+                }
+            }                
+        })
+
+        Vue.component("user",{
+        template:`
+            <p>i am a user</p>
+        `,
+        mounted(){
+            bus.$on("message",(data)=>{ //$on监听
+                window.console.log("get it",data)
+            })
+        }
+        })
+
+
+
+        new Vue({
+            el:'#app'
+        })
+    </script>
+</body>
+</html>
